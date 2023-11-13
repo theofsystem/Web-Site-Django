@@ -1,0 +1,49 @@
+{% extends 'base/principal.html' %}
+{% block content %}
+
+<div class="barra-superior">
+    <div>
+        <h1>Hola {{request.user|title}}</h1>
+        <h3 style="margin:0">Tienes <i>{{count}}</i> tantas incompletas</h3>
+    </div>
+    {% if request.user.is_authenticated %}
+    <a href="{% url 'logout' %}">Salir</a>
+    {% else  %}
+    <a href="{% url 'login' %}">ingresar</a>
+    {% endif %}
+
+</div>
+
+
+<h1>Lista de Pendientes </h1>
+<a href="{% url 'crear-tarea' %}">Crear nueva tarea</a>
+
+<form method="GET">
+<input type="text" name="area-buscar" id="" value="{{valor_buscado}}">
+<input type="submit" value="Buscar">
+</form>
+
+<table>
+<tr>
+    <th>Elementos</th>
+    <th>link</th>
+    <th></th>
+</tr>
+
+{% for tarea in tareas %}
+
+<tr>
+    <td>{{tarea.titulo}}</td>
+    <td><a href="{% url 'tarea' tarea.id %}">Ver</a></td>
+    <td><a href="{% url 'editar-tarea' tarea.id %}">Editar</a></td>
+    <td><a href="{% url 'eliminar-tarea' tarea.id%}">Eliminador</a></td>
+</tr
+
+{% empty %}
+<h3>No hay elementos en esta lista</h3>
+{% endfor %}
+
+</table>
+
+{% endblock content %}
+
